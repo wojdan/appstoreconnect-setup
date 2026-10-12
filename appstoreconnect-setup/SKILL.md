@@ -6,9 +6,10 @@ argument-hint: '[status | discover | frames | header | video | listing | languag
 
 You take the owner of an app from nothing to a complete App Store product page. Argument: `$ARGUMENTS`.
 
-`SKILL_DIR` below is this skill's own directory, `${CLAUDE_SKILL_DIR}` (if that reads as a literal placeholder, use the
-base directory named when the skill loads); "the kit" always means the project's design system. The project's store
-folder is `store/` in the project's root; every command is run from the project's root.
+`SKILL_DIR` below is this skill's own directory: `${CLAUDE_SKILL_DIR}` where the skill was copied into a skills folder,
+`${CLAUDE_PLUGIN_ROOT}/appstoreconnect-setup` where it was installed as a plugin. One of the two reads as a real path:
+use that one. "The kit" always means the project's design system. The project's store folder is `store/` in the
+project's root; every command is run from the project's root.
 
 **Answer the owner in the language they write to you in.** Everything you write into the repository is in English,
 except the store's own texts, which are in their languages.
@@ -19,8 +20,8 @@ Eight stages. Each has its own page in `SKILL_DIR/reference/`: read the page whe
 
 | # | Stage | What comes out | Page |
 |---|---|---|---|
-| 1 | `discover` | what the product is, whether it has a design system, the store folder | `discover.md` |
-| 2 | `frames` | the screenshots in the source language, approved | `frames.md` |
+| 1 | `discover` | what the product is, whether it has a design system, which platforms and display sizes, the store folder | `discover.md` |
+| 2 | `frames` | the screenshots in the source language, approved: one set, then one per further platform or size | `frames.md` |
 | 3 | `header` | the product page header, approved | `header.md` |
 | 4 | `video` | the search-results video, approved | `video.md` |
 | 5 | `listing` | name, subtitle, promotional text, keywords, description, test information, in the source language | `listing.md` |
@@ -32,7 +33,8 @@ Also there: `claude-design.md` (driving Claude Design in the browser and bringin
 `specs.md` (Apple's sizes and limits), `translator-brief.md` and `auditor-brief.md`.
 
 `store/PROGRESS.md` is the memory of this work: which stage is done, what the owner decided and in which words, what is
-open. Read it first, every time; write to it whenever a stage ends or the owner decides something. Without an argument,
+open. Read it first, every time, and `store/RULES.md` with it where there is one; write to `store/PROGRESS.md`
+whenever a stage ends or the owner decides something. Without an argument,
 continue at the first stage that is not done. With `status`, report from it and do nothing else. With a stage's name,
 go to that stage (and say so if an earlier one it depends on is not done).
 
@@ -72,7 +74,8 @@ one round per language.
 ## First run
 
 1. Tell the owner in a few lines what the eight stages are and what you need from them: a browser pane signed in to
-   Claude Design (now) and to App Store Connect (at stage 7), and a decision at the end of every stage.
+   Claude Design (now) and to App Store Connect (at stage 7), which platforms the pictures are for and whether they
+   want the minimum of sizes or all of them (stage 1 asks), and a decision at the end of every stage.
 2. Check the tools: `node --version` (18 or newer), `python3 --version`, `ffmpeg -version` (needed for the video only).
    Then `ls SKILL_DIR/tools/node_modules` : if it is missing, say that the renderers need Playwright with its Chromium and
    `sharp` (a download of a few hundred megabytes), and on the owner's yes run `npm install` and
@@ -88,11 +91,11 @@ All run from the project's root and read `store/store.config.json`.
 
 | Command | What it does |
 |---|---|
-| `node SKILL_DIR/tools/render-frames.mjs <code> [out-dir]` | the screenshots of one language into `store/out/<code>/frame-<n>.png`; prints the width of every claim line and warns about what does not fit |
+| `node SKILL_DIR/tools/render-frames.mjs <code> [out-dir] [--set <name>]` | the screenshots of one language into `store/out/<code>/frame-<n>.png`; prints the width of every claim line and warns about what does not fit; `--set` renders a further set (another platform or display size) into `store/out/<code>/<name>/` |
 | `node SKILL_DIR/tools/render-header.mjs <code> [out.png]` | the header into `store/out/<code>/header.png`; warns when an iPhone would cut the slogan |
 | `node SKILL_DIR/tools/render-video.mjs <code> stills` | the middle of each scene as a PNG, in seconds: for line breaks and cards |
 | `node SKILL_DIR/tools/render-video.mjs <code> [scale]` | the video into `store/out/<code>/search-video.mp4`; scale 2 doubles the size |
-| `node SKILL_DIR/tools/sheet.mjs <code>…` | a language's frames side by side at a third of their width |
+| `node SKILL_DIR/tools/sheet.mjs <code>… [--set <name>]` | a language's frames side by side at a third of their width |
 | `node SKILL_DIR/tools/compare.mjs <a.png> <b.png>` | whether two pictures are the same, pixel for pixel |
 | `python3 SKILL_DIR/tools/texts.py [code…]` | every language's texts against the source language and against the app's own texts |
 | `python3 SKILL_DIR/tools/listing.py [code…]` | the product page's texts against the store's limits; without arguments also writes `store/LISTING.md` |
@@ -103,4 +106,6 @@ All run from the project's root and read `store/store.config.json`.
 
 The skill is meant to be edited. The project's facts go into `store/store.config.json` and `store/PROGRESS.md`; the
 project's standing rules (its tone, words it never uses, the number of frames, which languages, who audits) go into
-this file, under a heading of their own below this line, where they override the pages in `reference/`.
+`store/RULES.md`, where they override the pages in `reference/`. In a copy of the skill that the project owns, they
+may also go into this file, under a heading of their own below this line; a plugin's files are replaced by every
+update, so there `store/RULES.md` is the only place.

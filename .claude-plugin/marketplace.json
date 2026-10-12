@@ -1,0 +1,14 @@
+{
+  "name": "wojdan",
+  "description": "Claude Code plugins by Bartek Wojdan",
+  "owner": { "name": "Bartek Wojdan", "url": "https://github.com/wojdan" },
+  "plugins": [
+    {
+      "name": "appstoreconnect-setup",
+      "source": "./",
+      "description": "Builds your app's whole App Store page with you: screenshots, header and search-results video from your own design system, store texts in every language, then fills App Store Connect.",
+      "category": "productivity",
+      "tags": ["app-store-connect", "app-store", "screenshots", "aso", "localization", "ios"]
+    }
+  ]
+}

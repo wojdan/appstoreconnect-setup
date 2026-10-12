@@ -46,7 +46,8 @@ Wait for the owner's answer. Expect to rewrite claims twice.
 Send one brief (`claude-design.md`) for a **new** page, `store-v1.dc.html`:
 
 - every frame a `<section>`, the frame itself an element `.store-frame` (or the kit's own class for it) of exactly
-  **440 × 956 CSS px**, with the claim in an `<h1 class="store-frame__title">` whose two lines are two `<span>`s, and
+  **440 × 956 CSS px** (the first set: the largest iPhone, or the first platform's size in `specs.md` when the app has
+  no iPhone version), with the claim in an `<h1 class="store-frame__title">` whose two lines are two `<span>`s, and
   the screen inside `.store-frame__screen`;
 - the frame's classes (background tone, a shape, the lockup with the name if wanted) added to the kit as components,
   like everything else;
@@ -77,8 +78,8 @@ When the owner says the set is right:
 
 **Size.** A frame is designed in CSS px and painted at a whole scale, which keeps every edge on the pixel grid:
 440 × 956 at 3 gives 1320 × 2868, 402 × 874 at 3 gives 1206 × 2622. Check `specs.md` and Apple's page for the sizes
-App Store Connect takes today; one size is enough, the store scales it for the other iPhones. PNG without alpha: the
-renderer removes it.
+App Store Connect takes today; one size per platform is the minimum, the store scales it for that platform's other
+displays. PNG without alpha: the renderer removes it.
 
 ## 4. Approval
 
@@ -90,6 +91,34 @@ Show the owner the rendered frames (the contact sheet and the full-size files). 
 - from now on, after any change to a template, the kit or a tool, render the source language again and
   `node SKILL_DIR/tools/compare.mjs` each file in `store/out/` with its approved twin. No differing pixel, or the
   owner decides.
+
+## 5. More sets: other platforms and display sizes
+
+Only what the owner chose in stage 1 (`discover.md`), and only after the first set is approved: the claims are settled
+there, and every other set repeats them.
+
+A set is an entry in `frames.sets` of the configuration, under a short name that is also its folder:
+
+```
+"frames": { "css": [440, 956], "scale": 3, "claimWidth": 392,
+            "sets": { "ipad": { "css": [1032, 1376], "scale": 2, "claimWidth": 936, "template": "template-ipad" } } }
+```
+
+`css` is required and `claimWidth` is the set's own; `scale`, `selectors` and `template` (the folder in
+`store/frames/` its templates are in) fall back to the first set's. The texts are one file for every set: a template
+may use fields another does not, and a claim is corrected once.
+
+- **Another platform, or a display of another shape** (an iPad, a Mac, a home-button iPhone): a design of its own. One
+  brief for a new page, with the same claims over that platform's screens, drawn from the kit as the app looks
+  there; then templates in a folder of their own and the set's sizes from `specs.md`.
+- **Another size of the same shape** (the 6.3-inch iPhone beside the 6.9-inch one): the same templates, when the
+  frame takes its size from `--frame-width` and `--frame-height`, which the renderer sets (the starter's
+  `frames.css` does). A narrower frame has a narrower claim: the renderer warns, and the words follow the narrowest
+  set.
+
+`node SKILL_DIR/tools/render-frames.mjs <source> --set <name>` writes `store/out/<source>/<name>/frame-<n>.png`, and
+`sheet.mjs` takes the same `--set`. Each set is shown, approved, copied to `store/approved/<source>/<name>/` and
+compared like the first one. In stage 6 every language is rendered once per set.
 
 ## What goes wrong
 

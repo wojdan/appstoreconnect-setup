@@ -1,7 +1,8 @@
 # Stage 1: discover
 
-Goal: know the product well enough to write its claims, know whether it has a design system, and have a `store/`
-folder the renderers run on. Nothing is designed in this stage.
+Goal: know the product well enough to write its claims, know whether it has a design system, know which platforms
+and how many display sizes the owner wants pictures for, and have a `store/` folder the renderers run on. Nothing is
+designed in this stage.
 
 ## 1. Ask for the design project
 
@@ -48,7 +49,31 @@ Three outcomes:
 
 Never fall back to the placeholder kit of the starter for anything the owner will approve.
 
-## 4. Set up the store folder
+## 4. Ask which platforms and how many sizes
+
+The owner answers this before anything is designed, because the answers multiply the work of every later stage. Come
+with what the project says (in an Xcode project `SUPPORTED_PLATFORMS` and `TARGETED_DEVICE_FAMILY`, where 1 is iPhone
+and 2 is iPad; a watch or a TV target) and ask the owner to confirm or correct it.
+
+1. **Which platforms?** iPhone, iPad, Mac, Apple TV, Apple Watch, Apple Vision Pro. Every platform the app runs on has
+   screenshots of its own in App Store Connect, and an iPad, a Mac or a watch screen is a design of its own, not a
+   stretched phone. The header and the search-results video are one each, shown on iPhone and iPad.
+2. **The necessary minimum, or every display size?** The minimum is one set per platform, at the largest display Apple
+   asks for; the store scales it down for the others (`specs.md`). Every size is a set per display class: sharper on
+   each device, and the only way to show a layout that differs between them. Its price is more design rounds (a
+   display with another shape is a layout of its own), more renders, and more files the owner uploads by hand. Say
+   the price as a number: sets × languages × frames is the count of files to upload (two sets, twelve languages and
+   six frames are 144). Recommend the minimum unless the app looks different on the other displays.
+3. **App previews?** Optional videos of the app in use, up to three per display size and language (`specs.md`). App
+   Review expects screen captures of the app itself, so the owner records them; you plan them with the owner, check
+   the files and put them on the upload checklist. The video this skill renders is the search-results one, another
+   asset.
+
+Write the answers into `store/PROGRESS.md` in the owner's words. Stage 2 designs the first set, then one set more for
+every other platform or size chosen here (`frames.md`, "More sets"). Apple's own guide to what each asset is for:
+<https://developer.apple.com/app-store/asset-best-practices/>.
+
+## 5. Set up the store folder
 
 Copy `SKILL_DIR/starter/` to `store/`. If `store/` is taken, ask for another name, put `STORE_DIR=<that folder>` in front
 of every command, and read "store/" in these pages and in the two briefs as that folder. Then:
@@ -71,7 +96,7 @@ of every command, and read "store/" in these pages and in the two briefs as that
 Language codes are lower case and are the folder names everywhere: `en`, `de`, `pt-br`, `es-419`, `zh`, `zh-hant`.
 `SKILL_DIR/tools/store.py` lists the ones App Store Connect knows.
 
-## 5. Report and write the ledger
+## 6. Report and write the ledger
 
 Write `store/PROGRESS.md`:
 
@@ -84,6 +109,9 @@ Write `store/PROGRESS.md`:
 ## Design
 project: <address> · kit: <where> · state: <exported on … | to be built>
 
+## Platforms and sizes
+<platforms> · <the minimum | every display size: which sets> · app previews: <no | the owner records them>
+
 ## Stages
 - [x] 1 discover (<date>)
 - [ ] 2 frames
@@ -95,5 +123,5 @@ project: <address> · kit: <where> · state: <exported on … | to be built>
 ```
 
 Then tell the owner, in their language and in under a minute of reading: what you understood the product to be (so
-they can correct you now), what the design situation is and what you propose to do about it, which screens you would
-show, and what stage 2 will ask of them.
+they can correct you now), what the design situation is and what you propose to do about it, which platforms and
+sets of sizes the pictures will be made for, which screens you would show, and what stage 2 will ask of them.

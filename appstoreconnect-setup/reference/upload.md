@@ -10,12 +10,15 @@ and to check the result with them.
   accepted whatever is missing; `store/out/` is only where the renderers write). Every language of
   `store/store.config.json` has there:
   `frame-1.png` … `frame-<n>.png`, `header.png`, `search-video.mp4` (and `search-video-3840.mp4` if the large one was
-  made).
+  made), and a folder per further set of screenshots (`<code>/ipad/frame-1.png` …) for every other platform or display
+  size the owner chose in stage 1.
+- App previews, if the owner chose to record them: check each file against `specs.md` with `ffprobe` (size, length,
+  frame rate) and list it under its language and display size.
 - Check the files, not the logs: every picture has the size the store wants and no alpha channel, every video has the
   expected length and frame count (`ffprobe`), nothing is zero bytes, no language is missing a frame.
 - Write `store/UPLOAD.md`: a checklist with one block per language, in the order of the language menu in App Store
-  Connect, with the store's name of the language, the folder, the files in upload order, and three boxes to tick
-  (screenshots, header, video). Put the folder's full path there, so it can be pasted into the file dialog
+  Connect, with the store's name of the language, the folder, the files in upload order, and the boxes to tick: one
+  for each set of screenshots (named as App Store Connect names that platform and display size), header, video. Put the folder's full path there, so it can be pasted into the file dialog
   (in macOS: Shift-Command-G).
 
 ## 2. Tell the owner how
@@ -23,7 +26,8 @@ and to check the result with them.
 In their language, short:
 
 1. App Store Connect → the app → the iOS version's page. Pick the language at the top of the page.
-2. **Screenshots**: in the iPhone section, the display size the frames were rendered for. Drag `frame-1.png` to
+2. **Screenshots**: in the iPhone section, the display size the frames were rendered for; every further set in the
+   section of its own platform and display size. Drag `frame-1.png` to
    `frame-<n>.png` in, then check their order on the page and drag them into place: the first ones are what search results show.
    If a set is already there, remove it first or the new ones are appended.
 3. **Header** and **search-results video**: each has its own slot on the same page. Upload `header.png` and
@@ -52,5 +56,5 @@ warns about it.
 
 Update `store/CONNECT.md` ("Left for the owner": what remains is theirs alone: publishing the privacy answers,
 testers, the submission) and `store/PROGRESS.md`. Then the last report: what is in the store's record now, what was
-checked by whom, and what nobody has checked: texts read only by models, pictures in languages nobody previewed, the
-iPad if the app runs there.
+checked by whom, and what nobody has checked: texts read only by models, pictures in languages nobody previewed,
+platforms and display sizes that got no set of their own and show a scaled one.

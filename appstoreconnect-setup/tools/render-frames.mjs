@@ -1,20 +1,23 @@
 #!/usr/bin/env node
 // Renders the App Store screenshots ("frames": a claim over a drawn screen of the app) for one language, as PNG
 // without alpha, from store/frames/template/frame-<n>.html and store/frames/texts/<lang>.json.
-// Usage: node render-frames.mjs <lang> [out-dir]        (run from the project's root; the default is store/out/<lang>)
+// Usage: node render-frames.mjs <lang> [out-dir] [--set <name>]
+//   Run from the project's root; the default is store/out/<lang>. --set renders a further set (another platform or
+//   display, frames.sets.<name> in the configuration) into store/out/<lang>/<name>, from the same texts.
 import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { config, direction, escape, fill, fontLinks, htmlAttributes, inStore, openPage, readJson, rtlCss, scriptCss, sharp, shown, styles } from "./lib.mjs";
+import { config, direction, escape, fill, fontLinks, frameSet, htmlAttributes, inStore, openPage, readJson, rtlCss, scriptCss, sharp, shown, styles, takeSet } from "./lib.mjs";
 
-const [lang, outArg] = process.argv.slice(2);
-if (!lang) { console.error("usage: node render-frames.mjs <lang> [out-dir]"); process.exit(2); }
-const cfg = await config(), f = cfg.frames ?? {};
+const args = process.argv.slice(2), set = takeSet(args), [lang, outArg] = args;
+if (!lang) { console.error("usage: node render-frames.mjs <lang> [out-dir] [--set <name>]"); process.exit(2); }
+const cfg = await config(), f = frameSet(cfg, set);
 // A frame is drawn in CSS px and painted at a whole scale: 440 x 956 at 3 is 1320 x 2868 (the 6.9-inch iPhone),
 // 402 x 874 at 3 is 1206 x 2622 (the 6.3-inch one). A whole scale keeps every edge on the pixel grid.
 const [width, height] = f.css ?? [440, 956], scale = f.scale ?? 3;
 const select = { frame: ".store-frame", claimLines: ".store-frame__title > span", screen: ".store-frame__screen", clip: "button", ...f.selectors };
 const claimWidth = f.claimWidth ?? width - 48;
-const outDir = path.resolve(outArg ?? inStore("out", lang));
+const templates = f.template ?? "template";
+const outDir = path.resolve(outArg ?? inStore("out", lang, ...(set ? [set] : [])));
 
 const texts = await readJson(inStore("frames", "texts", `${lang}.json`));
 const count = texts.frames.length, gap = 40;
@@ -22,7 +25,7 @@ let slots = "";
 for (let n = 1; n <= count; n++) {
   const fields = texts.frames[n - 1], where = `frames/texts/${lang}.json: frame ${n}`;
   if (!Array.isArray(fields.claim) || !fields.claim.length) throw new Error(`${where} needs a claim (a list of lines)`);
-  const template = (await readFile(inStore("frames", "template", `frame-${n}.html`), "utf8")).trim();
+  const template = (await readFile(inStore("frames", templates, `frame-${n}.html`), "utf8")).trim();
   const claim = fields.claim.map((line) => `<span>${escape(line)}</span>`).join(" ");
   slots += `<div class="f-slot" data-n="${n}" style="top:${(height + gap) * (n - 1)}px">${fill(template, fields, where, { claim })}</div>`;
 }
@@ -32,7 +35,7 @@ ${fontLinks(cfg)}
 ${await styles(cfg, "frames/frames.css")}<style>
 html, body { margin: 0; }
 .f-page { position: relative; height: ${(height + gap) * count}px; }
-.f-slot { position: absolute; left: 0; width: ${width}px; height: ${height}px; }
+.f-slot { position: absolute; left: 0; width: ${width}px; height: ${height}px; --frame-width: ${width}px; --frame-height: ${height}px; }
 ${scriptCss(cfg, lang, select.claimLines.split(">")[0].trim())}
 ${await rtlCss(lang)}
 </style></head><body><div class="f-page" ${cfg.rootAttributes ?? ""}>${slots}</div></body></html>`;

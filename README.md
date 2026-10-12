@@ -23,7 +23,7 @@ skill ships no look of its own.*
 
 | # | Stage | You get |
 |---|---|---|
-| 1 | **discover** | Claude reads your repository and your Claude Design project: what the product is, how it speaks, whether it has a design system |
+| 1 | **discover** | Claude reads your repository and your Claude Design project: what the product is, how it speaks, whether it has a design system. It asks which platforms you ship on and whether you want the necessary minimum of screenshot sizes or every display size |
 | 2 | **frames** | screenshots: a claim over a drawn screen of your app, proposed on a new page in Claude Design, iterated, then rendered locally |
 | 3 | **header** | the 21:9 product page header, from your kit |
 | 4 | **video** | the looping search-results video; describe the scenes and the motion in words and it is built that way |
@@ -50,7 +50,7 @@ store/
   frames/texts/<lang>.json   every string of one language
   header/  video/            the same, for the header and the video
   listing/<lang>.json        subtitle, promotional text, keywords, description
-  out/<lang>/                frame-1.png …, header.png, search-video.mp4
+  out/<lang>/                frame-1.png …, header.png, search-video.mp4; a folder per further set (ipad/ …)
   approved/<lang>/           the copies you approved; later renders are compared with them
 ```
 
@@ -74,7 +74,35 @@ German. A few more things it insists on:
 
 ## Install
 
-Copy the skill's folder into your project:
+As a plugin, in Claude Code:
+
+```
+/plugin marketplace add wojdan/appstoreconnect-setup
+```
+
+```
+/plugin install appstoreconnect-setup@wojdan
+```
+
+Then, in your project:
+
+```
+/appstoreconnect-setup:start
+```
+
+To update it later:
+
+```bash
+claude plugin marketplace update wojdan
+```
+
+```bash
+claude plugin update appstoreconnect-setup@wojdan
+```
+
+### Or copy the skill into your project
+
+You own the files then, and can edit every page of it:
 
 ```bash
 git clone --depth 1 https://github.com/wojdan/appstoreconnect-setup.git /tmp/appstoreconnect-setup
@@ -92,11 +120,10 @@ Then, in Claude Code, in your project:
 
 On the first run it asks before installing its renderers' dependencies (Playwright with Chromium, and `sharp`).
 
-To have it in every project instead, copy it to `~/.claude/skills/`. The project's copy is the better default: the
-rules you add to `SKILL.md` are that project's own.
+To have it in every project instead, copy it to `~/.claude/skills/`.
 
-To update, delete `/tmp/appstoreconnect-setup` and run both commands again. That replaces `SKILL.md`, so keep a copy
-of the rules you added at its bottom, or commit the skill and let git show you the difference.
+To update, delete `/tmp/appstoreconnect-setup` and run both commands again. That replaces the skill's files, so
+commit the skill first if you changed any, and let git show you the difference.
 
 ## Using it
 
@@ -106,10 +133,15 @@ of the rules you added at its bottom, or commit the skill and let git show you t
 /appstoreconnect-setup video      go to a stage: discover, frames, header, video, listing, languages, connect, upload
 ```
 
+Installed as a plugin, the command is `/appstoreconnect-setup:start`, with the same arguments.
+
 What it asks of you:
 
 - to open your Claude Design project in the session's browser, and later to **sign in to App Store Connect yourself**
   in the same browser; it never types a password or a code;
+- which platforms the pictures are for (iPhone, iPad, Mac, Apple TV, Apple Watch, Apple Vision Pro), and whether you
+  want one set of screenshots per platform, which the store scales for the other displays, or a set for every
+  display size: more to design, to render and to upload by hand;
 - a decision at the end of every stage; nothing is translated before you have approved it in your main language;
 - music for the video, if you want any. Take a **CC0** track (public domain, nothing to attribute, nothing that can be
   withdrawn): [FreePD](https://freepd.com), [Freesound](https://freesound.org) with the CC0 filter,
@@ -129,14 +161,16 @@ JSON and one of motion; say what you want instead and the skill rewrites them an
 - submit anything to Apple, publish your App Privacy answers, or press any button that does
 - touch another app, your agreements, banking, or users in App Store Connect
 - sign in for you, or upload the pictures (it prepares the checklist; the upload is yours)
+- record app previews: those are screen captures of your app, so they are yours to record; it checks the files and
+  puts them on the checklist
 - invent a look: backgrounds, colours and type come from your design system or it stops and asks
 
 ## Make it yours
 
 The skill is plain Markdown and a few hundred lines of JavaScript and Python. Your project's facts live in
-`store/store.config.json`; your standing rules (tone, words you never use, how many frames, which languages) go at the
-bottom of `SKILL.md`, where they override everything else. The pages in `reference/` are one per stage; change the one
-you disagree with.
+`store/store.config.json`; your standing rules (tone, words you never use, how many frames, which languages) go into
+`store/RULES.md`, where they override everything else. In a copy of the skill, the pages in `reference/` are one per
+stage; change the one you disagree with.
 
 The tools also work without Claude:
 

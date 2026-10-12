@@ -20,6 +20,24 @@ export async function readJson(file) {
 }
 export const config = async () => readJson(inStore("store.config.json"));
 
+/** Takes `--set <name>` out of the arguments: a further set of screenshots (another platform or display), or none. */
+export function takeSet(args) {
+  const at = args.indexOf("--set");
+  if (at < 0) return null;
+  const [, name] = args.splice(at, 2);
+  if (!name) throw new Error("--set needs a name: one of frames.sets in store.config.json");
+  return name;
+}
+/** The frames' settings: the first set's, or a named set's on top of them. A set has a size and a claim width of its own. */
+export function frameSet(cfg, set) {
+  const { sets = {}, ...first } = cfg.frames ?? {};
+  if (!set) return first;
+  if (!sets[set]) throw new Error(`store.config.json has no frames.sets.${set}` + (Object.keys(sets).length ? ` (it has: ${Object.keys(sets).join(", ")})` : ""));
+  if (!Array.isArray(sets[set].css)) throw new Error(`frames.sets.${set} in store.config.json needs "css": the frame's size in CSS px`);
+  const { css, claimWidth, ...shared } = first;
+  return { ...shared, ...sets[set] };
+}
+
 /** A package from the tools' own node_modules, or from the workspace STORE_KIT_MODULES names. */
 export function need(...names) {
   for (const base of [process.env.STORE_KIT_MODULES, toolsDir, process.cwd()].filter(Boolean)) {

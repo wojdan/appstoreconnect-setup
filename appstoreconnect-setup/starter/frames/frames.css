@@ -1,6 +1,7 @@
-/* The frame itself: a claim over a screen of the app, on one of the kit's tones. 440 x 956 CSS px.
+/* The frame itself: a claim over a screen of the app, on one of the kit's tones. 440 x 956 CSS px, or the size of the set
+   being rendered (the renderer gives it as --frame-width and --frame-height).
    When the frames come from the project's own design page, this file holds that page's frame classes instead. */
-.store-frame { position: relative; overflow: hidden; isolation: isolate; box-sizing: border-box; width: 440px; height: 956px; padding: 56px 24px 0; background: var(--frame-bg); color: var(--frame-ink, var(--color-ink)); font-family: var(--font-text); }
+.store-frame { position: relative; overflow: hidden; isolation: isolate; box-sizing: border-box; width: var(--frame-width, 440px); height: var(--frame-height, 956px); padding: 56px 24px 0; background: var(--frame-bg); color: var(--frame-ink, var(--color-ink)); font-family: var(--font-text); }
 .store-frame--a { --frame-bg: var(--tone-a); --frame-shape: var(--tone-a-shape); }
 .store-frame--b { --frame-bg: var(--tone-b); --frame-shape: var(--tone-b-shape); }
 .store-frame--c { --frame-bg: var(--tone-c); --frame-shape: var(--tone-c-shape); }

@@ -77,8 +77,8 @@ second meaning, a keyword swapped because it belongs to another category in that
 was done, what is left for them to decide. Then the contact sheets. Say plainly that every text was written and read
 by models and by no native speaker, and that the pictures have not been seen in the store's preview.
 
-When the owner accepts a language's pictures, copy them from `store/out/<code>/` to `store/approved/<code>/`, as was
-done for the source language: that copy is what later renders are compared with and what is uploaded. Write
+When the owner accepts a language's pictures, copy them from `store/out/<code>/` to `store/approved/<code>/`
+(further sets of screenshots with their folders, `<code>/<set>/`), as was done for the source language: that copy is what later renders are compared with and what is uploaded. Write
 `store/LISTING.md` again (`python3 SKILL_DIR/tools/listing.py`) and update `store/PROGRESS.md`.
 
 ## Later changes
