@@ -34,6 +34,9 @@ skill ships no look of its own.*
 
 Run it again any time: it keeps its place in `store/PROGRESS.md`.
 
+How long it takes depends on you: how many rounds of changes you ask for and how many languages you choose. The
+generating, rendering and filling in are the short part.
+
 ## The idea
 
 Every picture is rendered from **one template and one text file per language**. A word is corrected in a JSON file
@@ -74,7 +77,7 @@ German. A few more things it insists on:
 Copy the skill's folder into your project:
 
 ```bash
-git clone https://github.com/wojdan/appstoreconnect-setup.git /tmp/appstoreconnect-setup
+git clone --depth 1 https://github.com/wojdan/appstoreconnect-setup.git /tmp/appstoreconnect-setup
 ```
 
 ```bash
@@ -88,6 +91,12 @@ Then, in Claude Code, in your project:
 ```
 
 On the first run it asks before installing its renderers' dependencies (Playwright with Chromium, and `sharp`).
+
+To have it in every project instead, copy it to `~/.claude/skills/`. The project's copy is the better default: the
+rules you add to `SKILL.md` are that project's own.
+
+To update, delete `/tmp/appstoreconnect-setup` and run both commands again. That replaces `SKILL.md`, so keep a copy
+of the rules you added at its bottom, or commit the skill and let git show you the difference.
 
 ## Using it
 

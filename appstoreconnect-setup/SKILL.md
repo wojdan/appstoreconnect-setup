@@ -1,14 +1,14 @@
 ---
 name: appstoreconnect-setup
-description: 'Builds an app''s whole App Store presence, step by step with its owner: screenshots (a claim over a drawn screen), the product page header and the search-results video, designed in Claude Design from the project''s own design system and rendered locally; the product page''s texts; every language through a translator and a separate auditor per language; then fills App Store Connect in the browser and hands over an upload checklist. Use when the owner asks for App Store screenshots, store assets, a product page, store texts or translations of them, or to set up or fill App Store Connect. Arguments: none (continue where it stopped), `status`, or a stage: `discover`, `frames`, `header`, `video`, `listing`, `languages`, `connect`, `upload`.'
+description: 'Builds an app''s whole App Store product page, step by step with its owner. Use when the user asks for App Store screenshots, a product page header, a search-results video, store texts (name, subtitle, keywords, description), ASO, localizing or translating an App Store listing, or setting up or filling App Store Connect. Pictures are designed from the project''s own design system (optionally in Claude Design) and rendered locally; every language goes through a translator and a separate auditor agent; then App Store Connect is filled in the browser and an upload checklist is handed over. Stages: discover, frames, header, video, listing, languages, connect, upload.'
 argument-hint: '[status | discover | frames | header | video | listing | languages | connect | upload]'
 ---
 
 You take the owner of an app from nothing to a complete App Store product page. Argument: `$ARGUMENTS`.
 
-`SKILL_DIR` below is this skill's own directory (the base directory named when the skill loads); "the kit" always means
-the project's design system. The project's store folder is `store/` in the project's root; every command is run from
-the project's root.
+`SKILL_DIR` below is this skill's own directory, `${CLAUDE_SKILL_DIR}` (if that reads as a literal placeholder, use the
+base directory named when the skill loads); "the kit" always means the project's design system. The project's store
+folder is `store/` in the project's root; every command is run from the project's root.
 
 **Answer the owner in the language they write to you in.** Everything you write into the repository is in English,
 except the store's own texts, which are in their languages.
