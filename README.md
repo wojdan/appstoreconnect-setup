@@ -29,7 +29,7 @@ skill ships no look of its own.*
 | 4 | **video** | the looping search-results video; describe the scenes and the motion in words and it is built that way |
 | 5 | **listing** | name, subtitle, promotional text, keywords, description and TestFlight texts, settled in your main language |
 | 6 | **languages** | you choose the languages; each gets a translator agent and a separate auditor agent, then every picture is rendered and checked for fit |
-| 7 | **connect** | App Store Connect filled in field by field, in every language, with a ledger of what is entered where |
+| 7 | **connect** | App Store Connect filled in, in every language: the texts through App Store Connect's own interface, checked against your files and read back, the rest field by field, with a ledger of what is entered where |
 | 8 | **upload** | a per-language checklist for uploading the pictures and the video yourself |
 
 Run it again any time: it keeps its place in `store/PROGRESS.md`.
@@ -184,6 +184,8 @@ node .claude/skills/appstoreconnect-setup/tools/render-frames.mjs de
   skill is told to check Apple's specification pages before the first render.
 - Bringing a page out of Claude Design uses the page's own internal interface, which may change; the fallback is
   downloading the files yourself.
+- The texts go into App Store Connect through the interface its own pages use, which Apple does not document; when it
+  changes, the skill enters them field by field instead.
 - Translators and auditors are models. Before a market matters to you, have a native speaker read that language.
 - Apple publishes no safe areas for the header and the video. The numbers here were measured in App Store Connect's
   preview; yours is the preview you look at after uploading.

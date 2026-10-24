@@ -99,6 +99,7 @@ All run from the project's root and read `store/store.config.json`.
 | `node SKILL_DIR/tools/compare.mjs <a.png> <b.png>` | whether two pictures are the same, pixel for pixel |
 | `python3 SKILL_DIR/tools/texts.py [code…]` | every language's texts against the source language and against the app's own texts |
 | `python3 SKILL_DIR/tools/listing.py [code…]` | the product page's texts against the store's limits; without arguments also writes `store/LISTING.md` |
+| `python3 SKILL_DIR/tools/connect.py <code>… --version-id ID [--app-info-id ID] [--save]` | the script that puts the product page's texts into App Store Connect through the page's own interface, checked by checksum and read back (`app-store-connect.md`) |
 | `python3 SKILL_DIR/tools/app-texts-xcstrings.py <catalog>…` | the app's texts per language from Xcode String Catalogs, for the two checkers |
 | `node SKILL_DIR/tools/unpack.mjs`, `shots.mjs` | bringing a Claude Design page into the repository and looking at it (`claude-design.md`) |
 
