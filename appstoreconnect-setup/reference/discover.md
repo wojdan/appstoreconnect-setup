@@ -79,7 +79,8 @@ Copy `SKILL_DIR/starter/` to `store/`. If `store/` is taken, ask for another nam
 of every command, and read "store/" in these pages and in the two briefs as that folder. Then:
 
 - `store/store.config.json`: `app` (the name), `source` (the source language's code), `languages` (only the source
-  for now), `design.project` (the address), `design.kit` (the kit's files in the project).
+  for now), `design.project` (the address), `design.kit` (the kit's files in the project), `connect.bundleId` (the
+  bundle identifier).
 - Once the kit is exported: `css` pointing at it, `fontLinks` (the kit's web fonts, if any), `fontVariables` (the
   kit's font variables and the faces they name, so that Japanese or Arabic can put a system face behind them),
   `rootAttributes` (what the kit expects on a root element: a class, a theme attribute), `balance` (the kit's title

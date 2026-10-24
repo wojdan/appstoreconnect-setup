@@ -10,6 +10,7 @@
   "balance": { "titles": ".store-frame__title, .card__title, .screen__title", "hints": ".hint" },
   "frames": { "css": [440, 956], "scale": 3, "claimWidth": 392, "sets": {} },
   "header": { "css": [1920, 823], "scale": 2, "visible": [153, 1765] },
+  "connect": { "bundleId": "", "env": "" },
   "forbid": [],
   "notAppText": ["frames.*.app"],
   "listing": { "mustMention": ["promotional", "description"], "quotedKeys": [] }

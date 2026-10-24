@@ -1,7 +1,7 @@
 {
   "name": "appstoreconnect-setup",
   "displayName": "App Store Connect Setup",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Builds your app's whole App Store page with you: screenshots, header and search-results video from your own design system, store texts in every language (translator + auditor agents), then fills App Store Connect.",
   "author": { "name": "Bartek Wojdan", "url": "https://github.com/wojdan" },
   "homepage": "https://github.com/wojdan/appstoreconnect-setup",

@@ -7,7 +7,8 @@ page, step by step, with you deciding at every stage.
 
 It designs your screenshots, your product page header and your search-results video **from your own design system**,
 writes the store texts with you, runs a translator and a separate auditor for every language, fills App Store Connect
-in the browser, and hands you a checklist for the one thing you do by hand: uploading the files.
+in the browser, and uploads the pictures and the video through App Store Connect's API, or hands you a checklist to
+upload them yourself.
 
 ![Three sample screenshots rendered from the starter's placeholder kit](docs/frames.jpg)
 
@@ -30,7 +31,7 @@ skill ships no look of its own.*
 | 5 | **listing** | name, subtitle, promotional text, keywords, description and TestFlight texts, settled in your main language |
 | 6 | **languages** | you choose the languages; each gets a translator agent and a separate auditor agent, then every picture is rendered and checked for fit |
 | 7 | **connect** | App Store Connect filled in, in every language: the texts through App Store Connect's own interface, checked against your files and read back, the rest field by field, with a ledger of what is entered where |
-| 8 | **upload** | a per-language checklist for uploading the pictures and the video yourself |
+| 8 | **upload** | the pictures and the video of every language into App Store Connect through its API, with an API key you keep on your disk; or a per-language checklist to upload them yourself |
 
 Run it again any time: it keeps its place in `store/PROGRESS.md`.
 
@@ -69,6 +70,8 @@ German. A few more things it insists on:
 - Claude Code with a browser it can drive (the desktop app's browser pane, or Claude in Chrome)
 - Node 18 or newer, Python 3, and `ffmpeg` for the video
 - An Apple Developer account with the app's record created in App Store Connect (for stage 7)
+- For the upload through the API (optional): an App Store Connect API key with the App Manager role, kept on your disk;
+  the skill never reads or shows it
 - A [Claude Design](https://claude.ai/design) project is recommended, not required: without one the skill writes the
   templates directly and you iterate on the rendered pictures
 
@@ -160,7 +163,7 @@ JSON and one of motion; say what you want instead and the skill rewrites them an
 
 - submit anything to Apple, publish your App Privacy answers, or press any button that does
 - touch another app, your agreements, banking, or users in App Store Connect
-- sign in for you, or upload the pictures (it prepares the checklist; the upload is yours)
+- sign in for you, or read, show or store your API key (only its upload tool reads the key file, on your disk)
 - record app previews: those are screen captures of your app, so they are yours to record; it checks the files and
   puts them on the checklist
 - invent a look: backgrounds, colours and type come from your design system or it stops and asks

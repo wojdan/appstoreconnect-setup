@@ -21,15 +21,9 @@ sys.dont_write_bytecode = True
 from store import config, read
 from listing import check
 
-# The store folder's language codes and the locales App Store Connect's interface names them by. Apple adds
-# languages: the localizations the script reads are the authority, and a code missing here is refused with a message.
-LOCALE = {
-    "ar": "ar-SA", "ca": "ca", "zh": "zh-Hans", "zh-hant": "zh-Hant", "hr": "hr", "cs": "cs", "da": "da", "nl": "nl-NL",
-    "en-au": "en-AU", "en-ca": "en-CA", "en-gb": "en-GB", "en": "en-US", "fi": "fi", "fr": "fr-FR", "fr-ca": "fr-CA",
-    "de": "de-DE", "el": "el", "he": "he", "hi": "hi", "hu": "hu", "id": "id", "it": "it", "ja": "ja", "ko": "ko",
-    "ms": "ms", "no": "no", "pl": "pl", "pt-br": "pt-BR", "pt": "pt-PT", "ro": "ro", "ru": "ru", "sk": "sk",
-    "es-419": "es-MX", "es-mx": "es-MX", "es": "es-ES", "sv": "sv", "th": "th", "tr": "tr", "uk": "uk", "vi": "vi",
-}
+# The store folder's language codes and the locales App Store Connect names them by, shared with upload.mjs.
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "locales.json"), encoding="utf-8") as f:
+    LOCALE = json.load(f)
 VERSION_FIELDS = {"promotional": "promotionalText", "description": "description", "keywords": "keywords"}
 APP_INFO_FIELDS = {"name": "name", "subtitle": "subtitle"}
 
@@ -110,7 +104,7 @@ if __name__ == "__main__":
     codes = args or cfg["languages"]
     for code in codes:
         if code not in LOCALE:
-            sys.exit(f"{code}: no App Store Connect locale known for it; add it to LOCALE in connect.py after reading the "
+            sys.exit(f"{code}: no App Store Connect locale known for it; add it to tools/locales.json after reading the "
                      "locale from the page")
         problems = check(cfg, code)
         if problems:
